@@ -3,19 +3,23 @@ const helmet = require("helmet");
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
+require('dotenv').config()
+const app = express();
 
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: false,
+}));
+
 
 const stuffRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
-
-mongoose.connect('mongodb+srv://admin:admin@cluster0.9qidznj.mongodb.net/?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://' + process.env.DB_USER + ':' + process.env.DB_PASSWORD + '@cluster0.9qidznj.mongodb.net/retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
-  const app = express();
+  
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
