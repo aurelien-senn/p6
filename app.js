@@ -3,7 +3,7 @@ const helmet = require("helmet");
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
-require('dotenv').config()
+require('dotenv').config();
 const app = express();
 
 app.use(helmet({

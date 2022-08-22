@@ -96,7 +96,7 @@ exports.likeThing = (req, res) => {
           $push: { usersLiked: req.body.userId },
         }
       )
-        .then((sauce) => res.status(200).json({ message: "Un like de plus !" }))
+        .then((sauce) => res.status(200).json({ message: "like" }))
         .catch((error) => res.status(400).json({ error }));
     }
   
@@ -110,7 +110,7 @@ exports.likeThing = (req, res) => {
         }
       )
         .then((sauce) =>
-          res.status(200).json({ message: "Un dislike de plus !" })
+          res.status(200).json({ message: "dislike" })
         )
         .catch((error) => res.status(400).json({ error }));
     }
@@ -124,7 +124,7 @@ exports.likeThing = (req, res) => {
               { $pull: { usersLiked: req.body.userId }, $inc: { likes: -1 } }
             )
               .then((sauce) => {
-                res.status(200).json({ message: "Un like de moins !" });
+                res.status(200).json({ message: "supp like" });
               })
               .catch((error) => res.status(400).json({ error }));
           } else if (sauce.usersDisliked.includes(req.body.userId)) {
@@ -136,7 +136,7 @@ exports.likeThing = (req, res) => {
               }
             )
               .then((sauce) => {
-                res.status(200).json({ message: "Un dislike de moins !" });
+                res.status(200).json({ message: "supp dislike" });
               })
               .catch((error) => res.status(400).json({ error }));
           }
