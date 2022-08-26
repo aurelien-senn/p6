@@ -42,7 +42,7 @@ exports.signup = (req, res, next) => {
                     });
                 })
                 
-                .catch(error => {console.log('ici');
+                .catch(error => {
                     res.status(504).json({ error })
                 });
         })

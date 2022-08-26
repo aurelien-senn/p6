@@ -37,13 +37,15 @@ exports.modifyThing = (req, res, next) => {
         ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...req.body };
-  
+    
     delete thingObject._userId;
+    fs.unlink(`images/${filename}`);
     Sauce.findOne({_id: req.params.id})
         .then((sauce) => {
             if (sauce.userId != req.auth.userId) {
                 res.status(401).json({ message : 'Not authorized'});
             } else {
+              
                 Sauce.updateOne({ _id: req.params.id}, { ...thingObject, _id: req.params.id})
                 .then(() => res.status(200).json({message : 'Objet modifié!'}))
                 .catch(error => res.status(401).json({ error }));
@@ -105,7 +107,7 @@ exports.likeThing = (req, res) => {
       Sauce.updateOne(
         { _id: req.params.id },
         {
-          $inc: { dislikes: req.body.like++ * -1 },
+          $inc: { dislikes: req.body.like++ * -1},
           $push: { usersDisliked: req.body.userId },
         }
       )
@@ -115,7 +117,7 @@ exports.likeThing = (req, res) => {
         .catch((error) => res.status(400).json({ error }));
     }
 
-    else {
+    else if(req.body.like === 0) {
       Sauce.findOne({ _id: req.params.id })
         .then((sauce) => {
           if (sauce.usersLiked.includes(req.body.userId)) {

@@ -13,7 +13,7 @@ app.use(helmet({
 
 const stuffRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
-mongoose.connect('mongodb+srv://' + process.env.DB_USER + ':' + process.env.DB_PASSWORD + '@cluster0.9qidznj.mongodb.net/retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://' + process.env.DB_USER + ':' + process.env.DB_PASSWORD + '@cluster0.9qidznj.mongodb.net/sauce?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
