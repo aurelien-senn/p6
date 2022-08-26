@@ -39,17 +39,19 @@ exports.modifyThing = (req, res, next) => {
     } : { ...req.body };
     
     delete thingObject._userId;
-    fs.unlink(`images/${filename}`);
+    
     Sauce.findOne({_id: req.params.id})
         .then((sauce) => {
             if (sauce.userId != req.auth.userId) {
                 res.status(401).json({ message : 'Not authorized'});
             } else {
-              
+              const filename = sauce.imageUrl.split('/images/')[1];
+                fs.unlink(`images/${filename}`, () => {
                 Sauce.updateOne({ _id: req.params.id}, { ...thingObject, _id: req.params.id})
                 .then(() => res.status(200).json({message : 'Objet modifié!'}))
                 .catch(error => res.status(401).json({ error }));
-            }
+            })
+          }
         })
         .catch((error) => {
             res.status(400).json({ error });
